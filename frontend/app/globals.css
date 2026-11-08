@@ -3,8 +3,12 @@
 @tailwind utilities;
 
 body {
-  @apply bg-[#fafaf9] text-zinc-900 antialiased;
+  background-color: #fafaf9;
+  color: #18181b;
 }
+
 .glass {
-  @apply bg-white/80 backdrop-blur-xl border border-zinc-200/50;
+  background-color: rgba(255,255,255,0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0,0,0,0.1);
 }
