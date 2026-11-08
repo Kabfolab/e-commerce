@@ -10,7 +10,8 @@ export interface Product {
   name: string;
   price: string;
   description: string;
-  image_url: string;
+  image?: string;
+  image_url?: string;
   created_at: string;
 }
 
