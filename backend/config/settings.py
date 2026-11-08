@@ -35,6 +35,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'config.urls'
+WSGI_APPLICATION = 'config.wsgi.application'
 
 TEMPLATES = [
     {
@@ -52,8 +53,6 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'config.wsgi.application'
-
 DATABASES = {
     'default': dj_database_url.config(
         default=os.getenv('DATABASE_URL'),
@@ -69,14 +68,13 @@ USE_I18N = True
 USE_TZ = True
 
 # Static files
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -90,7 +88,6 @@ CORS_ALLOWED_ORIGINS = [
     "https://e-commerce-svyy.onrender.com",
 ]
 
-# Allow all Vercel preview URLs
 CORS_ALLOWED_ORIGIN_REGEXES = [
     r"^https://.*\.vercel\.app$",
 ]
@@ -104,4 +101,14 @@ CORS_ALLOW_METHODS = [
     'PUT',
 ]
 
-
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
