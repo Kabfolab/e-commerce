@@ -25,7 +25,27 @@ def create_order(request):
         subject=f"NEW ORDER #{order.id} - {shipping['name']}",
         message=f"Name: {shipping['name']}\nPhone: {shipping['phone']}\nEmail: {shipping['email']}\nAddress: {shipping['address']}\nTotal: ₦{total}\nRef: {paystack_ref}\nItems: {items}",
         from_email='orders@powerofnature.com',
-        recipient_list=['YOUR_EMAIL@gmail.com'],  # CHANGE THIS
+        recipient_list=['YOUR_EMAIL@gmail.com'],
     )
 
     return Response({"message": "Order placed", "order_id": order.id})
+
+# ADD THIS - To view all orders
+@api_view(['GET'])
+def list_orders(request):
+    orders = Order.objects.all().order_by('-created_at')
+    data = [
+        {
+            "id": o.id,
+            "name": o.name,
+            "email": o.email,
+            "phone": o.phone,
+            "address": o.address,
+            "total": o.total,
+            "ref": o.paystack_ref,
+            "items": o.items,
+            "date": o.created_at
+        }
+        for o in orders
+    ]
+    return Response(data)
