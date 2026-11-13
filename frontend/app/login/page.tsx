@@ -29,7 +29,7 @@ export default function LoginPage() {
   const handleSignOut = () => {
     localStorage.clear();
     alert("Signed out!");
-    window.location.href = "/";
+    window.location.href = "/shop";
   };
 
   return (
