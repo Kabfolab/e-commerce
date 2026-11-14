@@ -79,8 +79,8 @@ def verify_payment(request, reference):
             send_mail(
                 subject=f"NEW PAID ORDER #{order.id} - {order.name}",
                 message=f"Name: {order.name}\nPhone: {order.phone}\nEmail: {order.email}\nAddress: {order.address}\nTotal: ₦{order.total}\nRef: {reference}\nItems: {order.items}",
-                from_email='orders@powerofnature.com',
-                recipient_list=['YOUR_EMAIL@gmail.com'],
+                from_email='idreesgoke@gmail.com',
+                recipient_list=['kabfolab@gmail.com'],
                 fail_silently=False,
             )
 
