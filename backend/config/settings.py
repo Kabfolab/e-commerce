@@ -22,7 +22,7 @@ INSTALLED_APPS = [
     'products',
     'users',
     'orders'
-    '
+    
 ]
 AUTH_USER_MODEL = 'users.User'
 MIDDLEWARE = [
