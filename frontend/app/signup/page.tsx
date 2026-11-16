@@ -8,41 +8,27 @@ export default function SignupPage() {
   const [loading, setLoading] = useState(false);
 
   const handleSignup = async () => {
-  setLoading(true);
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL;
-  alert("Trying: " + baseUrl); // <-- This will show if ENV is missing
-  
-  try {
-    const res = await fetch(`${baseUrl}/api/auth/register/`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email, password }),
-    });
-    const handleSignup = async () => {
-  setLoading(true);
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "https://e-commerce-svvy.onrender.com";
-  
-  try {
-    // Wake up Render first - free instance sleeps
-    await fetch(`${baseUrl}/api/products/`, { method: "GET" }).catch(()=>{});
-    
-    const res = await fetch(`${baseUrl}/api/auth/register/`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email, password }),
-    });
-    const data = await res.json();
-    if (res.ok) {
-      alert("Account created!");
-      window.location.href = "/login";
-    } else {
-      alert(data.message || JSON.stringify(data));
+    setLoading(true);
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL || "https://e-commerce-svvy.onrender.com";
+    try {
+      await fetch(`${baseUrl}/api/products/`).catch(()=>{});
+      const res = await fetch(`${baseUrl}/api/auth/register/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        alert("Account created!");
+        window.location.href = "/login";
+      } else {
+        alert(data.message || JSON.stringify(data));
+      }
+    } catch (e: any) {
+      alert("Real error: " + e.message);
     }
-  } catch (e) { 
-    alert("Real error: " + e.message + " | Trying: " + baseUrl); 
-  }
-  setLoading(false);
-};
+    setLoading(false);
+  };
 
   return (
     <div className="min-h-screen bg-[#fafaf9] flex items-center justify-center p-4">
@@ -54,8 +40,7 @@ export default function SignupPage() {
           <input value={password} onChange={e=>setPassword(e.target.value)} type="password" placeholder="Password" className="w-full px-4 py-3 rounded-full border bg-zinc-50" />
           <button onClick={handleSignup} disabled={loading} className="w-full bg-black text-white py-3 rounded-full font-bold">{loading ? "Creating..." : "Sign Up"}</button>
         </div>
-        <p className="text-center text-sm mt-6">Have account? <a href="/login" className="font-bold">Login</a></p>
       </div>
     </div>
-  )
+  );
 }
