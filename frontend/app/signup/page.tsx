@@ -8,23 +8,28 @@ export default function SignupPage() {
   const [loading, setLoading] = useState(false);
 
   const handleSignup = async () => {
-    setLoading(true);
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/register/`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password }),
-      });
-      const data = await res.json();
-      if (res.ok) {
-        alert("Account created! Now login");
-        window.location.href = "/login";
-      } else {
-        alert(data.message);
-      }
-    } catch { alert("Cannot reach Render backend"); }
-    setLoading(false);
-  };
+  setLoading(true);
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+  alert("Trying: " + baseUrl); // <-- This will show if ENV is missing
+  
+  try {
+    const res = await fetch(`${baseUrl}/api/auth/register/`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, password }),
+    });
+    const data = await res.json();
+    if (res.ok) {
+      alert("Account created!");
+      window.location.href = "/login";
+    } else {
+      alert(JSON.stringify(data));
+    }
+  } catch (e) { 
+    alert("Real error: " + e.message); 
+  }
+  setLoading(false);
+};
 
   return (
     <div className="min-h-screen bg-[#fafaf9] flex items-center justify-center p-4">
