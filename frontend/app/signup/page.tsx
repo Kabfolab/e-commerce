@@ -18,15 +18,28 @@ export default function SignupPage() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, email, password }),
     });
+    const handleSignup = async () => {
+  setLoading(true);
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "https://e-commerce-svvy.onrender.com";
+  
+  try {
+    // Wake up Render first - free instance sleeps
+    await fetch(`${baseUrl}/api/products/`, { method: "GET" }).catch(()=>{});
+    
+    const res = await fetch(`${baseUrl}/api/auth/register/`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, password }),
+    });
     const data = await res.json();
     if (res.ok) {
       alert("Account created!");
       window.location.href = "/login";
     } else {
-      alert(JSON.stringify(data));
+      alert(data.message || JSON.stringify(data));
     }
   } catch (e) { 
-    alert("Real error: " + e.message); 
+    alert("Real error: " + e.message + " | Trying: " + baseUrl); 
   }
   setLoading(false);
 };
