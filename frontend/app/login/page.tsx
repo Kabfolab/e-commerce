@@ -11,12 +11,10 @@ export default function LoginPage() {
   const handleLogin = async () => {
     setLoading(true);
     try {
-      console.log("Trying:", `${API}/api/auth/login/`);
       const res = await fetch(`${API}/api/auth/login/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        // DO NOT add credentials: 'include' - it breaks CORS
-      body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, password }),
       });
       const data = await res.json();
       if (res.ok) {
@@ -27,20 +25,19 @@ export default function LoginPage() {
       } else {
         alert("Server said: " + (data.message || JSON.stringify(data)));
       }
-    } catch (err) {
-      alert("REAL ERROR: " + err.message + "\n\nAPI URL is: " + API);
+    } catch (err: any) {
+      alert("REAL ERROR: " + (err?.message || err) + "\n\nAPI URL is: " + API);
     }
     setLoading(false);
   };
 
-  // THIS IS THE TEST BUTTON
   const testConnection = async () => {
     try {
       const res = await fetch(`${API}/api/products/`);
       const text = await res.text();
       alert("RENDER IS REACHABLE! Status: " + res.status + "\nFirst 100 chars: " + text.slice(0,100));
-    } catch (e) {
-      alert("TEST FAILED - CORS STILL BLOCKED:\n" + e.message);
+    } catch (e: any) {
+      alert("TEST FAILED - CORS STILL BLOCKED:\n" + (e?.message || e));
     }
   };
 
@@ -60,9 +57,7 @@ export default function LoginPage() {
           <input value={email} onChange={e=>setEmail(e.target.value)} placeholder="Email" className="w-full px-4 py-3 rounded-full border bg-zinc-50" />
           <input value={password} onChange={e=>setPassword(e.target.value)} type="password" placeholder="Password" className="w-full px-4 py-3 rounded-full border bg-zinc-50" />
           <button onClick={handleLogin} disabled={loading} className="w-full bg-black text-white py-3 rounded-full font-bold">{loading ? "Loading..." : "Login"}</button>
-          
           <button onClick={testConnection} className="w-full bg-red-500 text-white py-3 rounded-full font-bold">🔴 TEST RENDER CONNECTION</button>
-          
           <button onClick={handleSignOut} className="w-full bg-zinc-100 py-3 rounded-full font-bold">Sign Out</button>
         </div>
         <p className="text-center text-sm mt-6">No account? <a href="/signup" className="font-bold">Sign Up</a></p>
