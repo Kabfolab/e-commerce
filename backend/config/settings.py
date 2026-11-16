@@ -11,6 +11,7 @@ DEBUG = os.getenv('DEBUG', 'True') == 'True'
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -18,7 +19,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'corsheaders',
     'products',
     'users',
     'orders'
@@ -93,6 +93,12 @@ CORS_ALLOWED_ORIGINS = [
 
 CORS_ALLOWED_ORIGIN_REGEXES = [
     r"^https://.*\.vercel\.app$",
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://e-commerce-project-eta-lyart.vercel.app",
+    "https://*.vercel.app",
+    "https://e-commerce-svvy.onrender.com",
 ]
 
 CORS_ALLOW_METHODS = [
