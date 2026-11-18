@@ -4,7 +4,7 @@ const nextConfig = {
     return [
       {
         source: '/api/:path*',
-        destination: 'https://e-commerce-svvy.onrender.com/api/:path*',
+        destination: 'https://e-commerce-svyy.onrender.com/api/:path*',
       },
     ]
   },
