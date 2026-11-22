@@ -36,7 +36,7 @@ export default function LoginPage() {
         localStorage.setItem("access", data.access || "")
         localStorage.setItem("refresh", data.refresh || "")
         alert("Login successful!")
-        window.location.href = "/"
+        window.location.href = "/shop"
       }
     } catch (err: any) {
       alert("REAL ERROR: " + err.message)
