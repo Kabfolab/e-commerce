@@ -29,19 +29,23 @@ export default function CheckoutPage() {
         headers: { "Content-Type": "application/json", ...(token ? { "Authorization": `Bearer ${token}` } : {}) },
         body: JSON.stringify({
           full_name: name,
-          email: email, // <-- Now included
+          email,
           phone,
           address,
           total,
           items: cart.map(i => ({ product: i.id, quantity: i.qty || 1, price: i.price }))
         }),
       });
-      const text = await res.text();
-      if (!res.ok) throw new Error(`Backend ${res.status}: ${text.slice(0, 300)}`);
-      const order = JSON.parse(text);
-      localStorage.setItem("cart", "[]");
-      localStorage.setItem("email", email); // Save for next time
-      router.push(`/verify-payment?order=${order.id}&amount=${total}`);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || JSON.stringify(data).slice(0, 300));
+
+      // FIX: Backend returns Paystack URL - redirect there, don't go to verify yet
+      if (data.authorization_url) {
+        localStorage.setItem("cart", "[]");
+        window.location.href = data.authorization_url;
+      } else {
+        throw new Error("No Paystack URL returned");
+      }
     } catch (err: any) { alert(err.message); }
     setLoading(false);
   };
@@ -61,4 +65,4 @@ export default function CheckoutPage() {
       </form>
     </div>
   );
-}
+          }
